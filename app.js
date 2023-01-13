@@ -6,7 +6,7 @@ const rotaProdutos = require('./routes/produtos');
 //app.use('/produtos', rotaProdutos);
 app.use('/teste', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'successhhhh'
+        mensagem: 'sucesso teste'
     });
 
 });
