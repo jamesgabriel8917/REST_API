@@ -1,4 +1,4 @@
-const express = Require('express');
+const express = require('express');
 const router = express.Router();
 
 //RETORNA TODOS OS PRODUTOS
@@ -32,6 +32,19 @@ router.get('/:id_produto', (req, res, next) => {
 
     }
 });
+
+router.patch('/', (req, res, next) => {
+    res.status(201).send({
+        mensagem: 'usando patch'
+    })
+});
+
+router.delete('/', (req, res, next) => {
+    res.status(201).send({
+        mensagem: 'usando delete'
+    })
+});
+
 
 module.exports = router;
 
