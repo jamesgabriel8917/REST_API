@@ -25,6 +25,7 @@ router.get('/:id_pedido', (req, res, next) => {
 
 });
 
+
 //DELETA UM PEDIDO
 router.delete('/', (req, res, next) => {
     res.status(201).send({
@@ -33,8 +34,4 @@ router.delete('/', (req, res, next) => {
 
 })
 
-
 module.exports = router;
-
-
-
