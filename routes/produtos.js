@@ -43,7 +43,8 @@ router.delete('/', (req, res, next) => {
     res.status(201).send({
         mensagem: 'usando delete'
     })
-});
+
+})
 
 
 module.exports = router;
