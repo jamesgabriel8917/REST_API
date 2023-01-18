@@ -33,12 +33,14 @@ router.get('/:id_produto', (req, res, next) => {
     }
 });
 
+// USANDO PATCH PARA PEDIDO
 router.patch('/', (req, res, next) => {
     res.status(201).send({
         mensagem: 'usando patch'
     })
 });
 
+//DELETANDO UM PEDIDO
 router.delete('/', (req, res, next) => {
     res.status(201).send({
         mensagem: 'usando delete'

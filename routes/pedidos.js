@@ -1,21 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-//RETORNA TODOS OS PRODUTOS
+//RETORNA TODOS OS PEDIDOS
 router.get('/', (req, res, next) => {
     res.status(200).send({
         mensagem: 'sucesso, pedidos'
     });
 });
 
-// INSERE UM PRODUTO
+// INSERE UM PEDIDO
 router.post('/', (req, res, next) => {
     res.status(201).send({
         Mensagem: 'usando post dentro da rota de pedidos'
     })
 });
 
-// RETORNA UM PRODUTO ESPECIFICO
+// RETORNA UM PEDIDO ESPECIFICO
 router.get('/:id_pedido', (req, res, next) => {
     const id = req.params.id_pedido;
         res.status(200).send({
@@ -25,7 +25,7 @@ router.get('/:id_pedido', (req, res, next) => {
 
 });
 
-
+//DELETA UM PEDIDO
 router.delete('/', (req, res, next) => {
     res.status(201).send({
         mensagem: 'usando delete nos pedidod'
