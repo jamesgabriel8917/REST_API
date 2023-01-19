@@ -10,10 +10,16 @@ router.get('/', (req, res, next) => {
 
 // INSERE UM PRODUTO
 router.post('/', (req, res, next) => {
+    const produto ={
+        nome: req.body.nome,
+        preco: req.body.preco
+    };
     res.status(201).send({
-        Mensagem: 'usando post dentro da rota de produtos'
+        Mensagem: 'Produto inserido',
+        ProdutoCriado: produto
     })
 });
+
 
 // RETORNA UM PRODUTO ESPECIFICO
 router.get('/:id_produto', (req, res, next) => {
@@ -47,7 +53,6 @@ router.delete('/', (req, res, next) => {
     })
 
 })
-
 
 module.exports = router;
 

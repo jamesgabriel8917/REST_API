@@ -10,8 +10,13 @@ router.get('/', (req, res, next) => {
 
 // INSERE UM PEDIDO
 router.post('/', (req, res, next) => {
+    const pedido ={
+        id_produto: req.body.id_produto,
+        quantidade: req.body.quantidade
+    };
     res.status(201).send({
-        Mensagem: 'usando post dentro da rota de pedidos'
+        Mensagem: 'usando post dentro da rota de pedidos',
+        PedidoCriado: pedido
     })
 });
 
@@ -22,7 +27,6 @@ router.get('/:id_pedido', (req, res, next) => {
             mensagem: 'sucesso, pedido especifico',
             id: id
         });
-
 });
 
 
