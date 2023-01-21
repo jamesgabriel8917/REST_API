@@ -33,7 +33,7 @@ router.get('/:id_pedido', (req, res, next) => {
 //DELETA UM PEDIDO
 router.delete('/', (req, res, next) => {
     res.status(201).send({
-        mensagem: 'usando delete nos pedidod'
+        mensagem: 'usando delete nos pedidos'
     })
 
 })
