@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mysql = require('../mysql').pool;
 
 //RETORNA TODOS OS PEDIDOS
 router.get('/', (req, res, next) => {
