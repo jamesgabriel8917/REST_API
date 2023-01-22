@@ -13,12 +13,12 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
 
     mysql.getConnection((error, conn) => {
+
         conn.query(
             'INSERT INTO Produtos (nome,preco) VALUES (?, ?)',
             [req.body.nome, req.body.preco],
             (error, resultado, field) => {
                 conn.release();
-
                 if(error){
                     return  res.status(500).send({
                                 error: error,
@@ -69,9 +69,6 @@ router.delete('/', (req, res, next) => {
     res.status(201).send({
         mensagem: 'usando delete'
     })
-
 })
 
 module.exports = router;
-
-
