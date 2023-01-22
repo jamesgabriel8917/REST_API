@@ -6,6 +6,7 @@ const mysql = require('../mysql').pool;
 router.get('/', (req, res, next) => {
     res.status(200).send({
         mensagem: 'sucesso, pedidos'
+        
     });
 });
 
