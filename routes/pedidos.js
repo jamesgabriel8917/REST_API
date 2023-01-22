@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
 // INSERE UM PEDIDO
 router.post('/', (req, res, next) => {
     const pedido ={
-        id_pedido: req.body.id_pedido,
+        id_pedido: req.body.id_edido,
         quantidade: req.body.quantidade
     };
     res.status(201).send({
