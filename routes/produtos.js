@@ -11,13 +11,26 @@ router.get('/', (req, res, next) => {
         }
         conn.query(
             'SELECT * FROM Produtos;',
-            (error, resultado, fields) => {
+            (error, result, fields) => {
                 conn.release();
 
                 if(error) return res.status(500).send({error: error})
-                res.status(200).send({
-                    response: resultado
-                });
+                const response = {
+                    quantidade: result.length,
+                    produtos: result.map(prod => {
+                        return {
+                            id_produto: prod.id_produto,
+                            nome: prod.nome,
+                            preco: prod.preco,
+                            request: {
+                            tipo: "GET",
+                            descricao: '',
+                            url: "http://localhost:3000/produtos/"+prod.id_produto
+                            }
+                        }
+                    })
+                }
+                res.status(200).send(response);
 
 
             }
@@ -36,7 +49,7 @@ router.post('/', (req, res, next) => {
         conn.query(
             'INSERT INTO Produtos (nome, preco) VALUES (?, ?)',
             [req.body.nome, req.body.preco],
-            (error, resultado, field) => {
+            (error, result, field) => {
                 conn.release();
                 if(error){
                     return  res.status(500).send({
@@ -46,7 +59,7 @@ router.post('/', (req, res, next) => {
                 }
                 res.status(201).send({
                     Mensagem: 'Produto inserido com sucesso',
-                    id_produto: resultado.insertiId
+                    id_produto: result.insertiId
                 })
             }
         )
@@ -65,12 +78,12 @@ router.get('/:id_produto', (req, res, next) => {
         conn.query(
             'SELECT * FROM Produtos WHERE id_produto = ?;',
             [req.params.id_produto],
-            (error, resultado, fields) => {
+            (error, result, fields) => {
                 conn.release();
 
                 if(error) return res.status(500).send({error: error})
                 res.status(200).send({
-                    response: resultado
+                    response: result
                 });
 
 
