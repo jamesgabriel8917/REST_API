@@ -58,26 +58,54 @@ router.post('/', (req, res, next) => {
 
 // RETORNA UM PRODUTO ESPECIFICO
 router.get('/:id_produto', (req, res, next) => {
-    const id = req.params.id_produto;
-    if  (id === 'especial') {
-        res.status(200).send({
-            mensagem: 'sucesso, id especial',
-            id: id
-        });
+    mysql.getConnection((error, conn) => {
+        if (error) {
+            return res.status(500).send({error: error}) 
+        }
+        conn.query(
+            'SELECT * FROM Produtos WHERE id_produto = ?;',
+            [req.params.id_produto],
+            (error, resultado, fields) => {
+                conn.release();
 
-    } else {
-        res.status(200).send({
-            mensagem: 'sucesso, produto especifico',
-            id: id
-        });
+                if(error) return res.status(500).send({error: error})
+                res.status(200).send({
+                    response: resultado
+                });
 
-    }
+
+            }
+        )
+    })
 });
 
 // USANDO PATCH PARA PEDIDO
 router.patch('/', (req, res, next) => {
-    res.status(201).send({
-        mensagem: 'usando patch'
+    mysql.getConnection((error, conn) => {
+        if (error) {
+            return res.status(500).send({error: error}) 
+        }
+        conn.query(
+            `UPDATE Produtos 
+             SET nome         = ?,
+                 preco         = ?
+            WHERE id_produto = ?;`,
+            [
+                req.body.nome, 
+                req.body.preco, 
+                req.body.id_produto
+            ],
+            (error, resultado, fields) => {
+                conn.release();
+
+                if(error) return res.status(500).send({error: error})
+                res.status(200).send({
+                    mensagem: "Produto alterado com sucesso"
+                });
+
+
+            }
+        )
     })
 });
 
