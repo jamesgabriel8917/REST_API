@@ -57,10 +57,15 @@ router.post('/', (req, res, next) => {
                                 response: null
                             });
                 }
-                res.status(201).send({
-                    Mensagem: 'Produto inserido com sucesso',
-                    id_produto: result.insertiId
-                })
+                const response = {
+                    mesnagem: "Produto inserido com sucesso",
+                    ProdutoCriado:{
+                        id_produto: resultado.id_produto,
+                        nome: req.body.nome,
+                        preco: req.body.preco
+                    }
+                }
+                res.status(201).send(response)
             }
         )
     })
@@ -82,9 +87,25 @@ router.get('/:id_produto', (req, res, next) => {
                 conn.release();
 
                 if(error) return res.status(500).send({error: error})
-                res.status(200).send({
-                    response: result
-                });
+                if(result.length==0){
+                    return res.status(404).send({
+                        mensagem: 'Product not found'
+                    });
+                }
+                const response = {
+                    produto: result.map(prod => {
+                        return {
+                            nome: result[0].nome,
+                            preco: result[0].preco,
+                            request: {
+                            tipo: "GET",
+                            descricao: '',
+                            url: "http://localhost:3000/produtos/"
+                            }
+                        }
+                    })
+                }
+                res.status(200).send(response);
 
 
             }
@@ -108,13 +129,30 @@ router.patch('/', (req, res, next) => {
                 req.body.preco, 
                 req.body.id_produto
             ],
-            (error, resultado, fields) => {
+            (error, result, fields) => {
                 conn.release();
 
                 if(error) return res.status(500).send({error: error})
-                res.status(202).send({
-                    mensagem: "Produto alterado com sucesso"
-                });
+                
+                if(!result){
+                    return res.status(404).send({
+                        result: "Produtc not found"
+                    });
+                }
+                const response = {
+                    mensagem: "Produto atualizado com sucesso",
+                    ProdutoAtualizado: {
+                        id_produto: result.id_produto,
+                        nome: result.nome,
+                        preco: result.preco,
+                        request: {
+                            tipo: "GET",
+                            descricao: "Retorna os detalhes do produto",
+                            url: "http://localhost:3000/produtos/"+req.body.id_produto
+                        }
+                    }
+                }
+                res.status(202).send(response);
 
 
             }
@@ -131,7 +169,7 @@ router.delete('/', (req, res, next) => {
         conn.query(
             `DELETE FROM Produtos WHERE id_produto = ?;`,
             [req.body.id_produto],
-            (error, resultado, fields) => {
+            (error, result, fields) => {
                 conn.release();
 
                 if(error) return res.status(500).send({error: error})
