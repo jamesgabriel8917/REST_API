@@ -99,7 +99,7 @@ router.patch('/', (req, res, next) => {
                 conn.release();
 
                 if(error) return res.status(500).send({error: error})
-                res.status(200).send({
+                res.status(202).send({
                     mensagem: "Produto alterado com sucesso"
                 });
 
@@ -111,8 +111,24 @@ router.patch('/', (req, res, next) => {
 
 //DELETANDO UM PEDIDO
 router.delete('/', (req, res, next) => {
-    res.status(201).send({
-        mensagem: 'usando delete'
+    mysql.getConnection((error, conn) => {
+        if (error) {
+            return res.status(500).send({error: error}) 
+        }
+        conn.query(
+            `DELETE FROM Produtos WHERE id_produto = ?;`,
+            [req.body.id_produto],
+            (error, resultado, fields) => {
+                conn.release();
+
+                if(error) return res.status(500).send({error: error})
+                res.status(202).send({
+                    mensagem: "Produto excluido"
+                });
+
+
+            }
+        )
     })
 })
 
