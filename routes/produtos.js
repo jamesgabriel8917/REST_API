@@ -57,7 +57,7 @@ router.post('/', (req, res, next) => {
                             });
                 }
                 const response = {
-                    mesnagem: "Produto inserido com sucesso",
+                    mensagem: "Produto inserido com sucesso",
                     ProdutoCriado:{
                         id_produto: resultado.id_produto,
                         nome: req.body.nome,
@@ -112,7 +112,7 @@ router.get('/:id_produto', (req, res, next) => {
     })
 });
 
-// USANDO PATCH PARA PEDIDO
+// USANDO PATCH PARA PRODUTOS
 router.patch('/', (req, res, next) => {
     mysql.getConnection((error, conn) => {
         if (error) {
