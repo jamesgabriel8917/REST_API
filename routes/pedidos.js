@@ -4,21 +4,47 @@ const mysql = require('../mysql').pool;
 
 //RETORNA TODOS OS PEDIDOS
 router.get('/', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'sucesso, pedidos'
-        
-    });
+    mysql.getConnection((error, conn) => {
+        if (error) {
+            return res.status(500).send({error: error});
+        }
+        conn.query(
+            'SELECT * FROM Pedidos;',
+            (error, result, fields) => {
+                conn.release();
+
+                if(error) return res.status(500).send({error: error});
+
+                const response ={
+                    quantidade_pedidos: result.length,
+                    pedidos: result.map(ped => {
+                        return {
+                            id_pedido: ped.id_pedido,
+                            quantidade: ped.quantidade,
+                            id_produto: ped.id_produto
+
+                        }
+                    })
+                }
+
+                res.status(200).send(response);
+            }
+        )
+    })
 });
 
 // INSERE UM PEDIDO
 router.post('/', (req, res, next) => {
-    const pedido ={
-        id_pedido: req.body.id_edido,
-        quantidade: req.body.quantidade
-    };
-    res.status(201).send({
-        Mensagem: 'usando post dentro da rota de pedidos',
-        PedidoCriado: pedido
+    mysql.getConnection((error, conn) => {
+        if (error){
+            return res.status(500).send({ error: error });
+        }
+
+        conn.query(
+            `INSER INTO Produto (quantidade, id_produto) values (?, ?)`,
+            [req.body.quantidade, req.body.id_produto]
+        )
+
     })
 });
 

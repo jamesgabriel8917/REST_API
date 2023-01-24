@@ -4,7 +4,6 @@ const mysql = require('../mysql').pool;
 
 //RETORNA TODOS OS PRODUTOS
 router.get('/', (req, res, next) => {
-
     mysql.getConnection((error, conn) => {
         if (error) {
             return res.status(500).send({error: error}) 
@@ -131,14 +130,7 @@ router.patch('/', (req, res, next) => {
             ],
             (error, result, fields) => {
                 conn.release();
-
                 if(error) return res.status(500).send({error: error})
-                
-                if(!result){
-                    return res.status(404).send({
-                        result: "Produtc not found"
-                    });
-                }
                 const response = {
                     mensagem: "Produto atualizado com sucesso",
                     ProdutoAtualizado: {
@@ -173,9 +165,15 @@ router.delete('/', (req, res, next) => {
                 conn.release();
 
                 if(error) return res.status(500).send({error: error})
-                res.status(202).send({
-                    mensagem: "Produto excluido"
-                });
+                const response = {
+                    mensagem: 'Produto removido com sucesso',
+                    request: {
+                        tipo: 'POST',
+                        descricao: '',
+                        url: ''
+                    }
+                }
+                res.status(202).send(response);
 
 
             }
